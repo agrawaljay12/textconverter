@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Text to Speech converter </title>
+    <!-- <script src="app1.js"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-800 flex h-screen justify-center items-center p-8">
+    <div class="container p-8 w-full max-w-xl border-2 border-white rounded-xl ">
+        <h1 class="text-center text-white sm:text-3xl  text-2xl font-bold py-5"> Text to Speech Converter </h1>
+            <div>
+                <textarea placeholder="Write anything" class="text-control  resize-none border-white border-1 rounded-xl text-lg w-full h-40 p-4 mb-4" id="gettext"></textarea>
+            </div>
+            <div class="flex space-x-4 justify-center px-4">
+                    <select name="" id="selectlanguage" class="rounded-lg border-white border-1 p-1 sm:w-72 w-48" >
+                       
+                    </select>
+                    <button class=" border-white bg-orange-400 border-2 w-36 rounded-lg bg-blue-700 p-1 text-white text-lg font-bold" id="listen" onclick="getspeech()"> Listen </button>
+            </div>
+    </div>
+</body>
+<script>
+    let speech = new SpeechSynthesisUtterance();
+    let voices=[];
+    let selectlang = document.getElementById("selectlanguage");
+    window.speechSynthesis.onvoiceschanged =()=>{
+        voices =window.speechSynthesis.getVoices();
+        speech.voice = voices[0];
+        voices.forEach((voice,i) =>(selectlang.options[i]) = new Option(
+            voice.name,i
+        ));
+    };
+    selectlang.addEventListener("change",()=>{
+        speech.voice=voices[selectlang.value];
+    });
+    function getspeech()
+    {
+        speech.text =document.getElementById("gettext").value;
+        window.speechSynthesis.speak(speech);
+    }
+
+</script>
+</html>
